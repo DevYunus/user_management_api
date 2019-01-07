@@ -24,20 +24,20 @@ Route::group([
     'namespace' => 'Api'
 ], function ($router) {
 
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-
+    $router->post('login', 'AuthController@login');
+    $router->post('logout', 'AuthController@logout');
+    $router->post('refresh', 'AuthController@refresh');
+    $router->post('me', 'AuthController@me');
 
 });
 
 Route::group([
-    'middleware' => 'auth:api',
+    'middleware' => 'api',
     'namespace' => 'Api'
 ], function ($router) {
 
     $router->apiResource('users', 'UserController');
-    
+
+    $router->apiResource('roles', 'RoleController');
 
 });
