@@ -28,6 +28,7 @@ Route::group([
     $router->post('logout', 'AuthController@logout');
     $router->post('refresh', 'AuthController@refresh');
     $router->post('me', 'AuthController@me');
+    $router->get('validate', 'AuthController@validateToken');
 
 });
 
@@ -39,5 +40,15 @@ Route::group([
     $router->apiResource('users', 'UserController');
 
     $router->apiResource('roles', 'RoleController');
+
+    $router->apiResource('groups', 'GroupController');
+
+    $router->apiResource('permissions', 'PermissionController');
+
+    $router->put('profile','ProfileController@update');
+
+    $router->get('activity','ActivityController@index');
+
+    $router->get('activity/{activity}','ActivityController@show');
 
 });
