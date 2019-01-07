@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class GroupTableSeeder extends Seeder
+class PermissionTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,11 +13,11 @@ class GroupTableSeeder extends Seeder
     public function run()
     {
         for ($i=0; $i < 5000; $i++) {
-            $group[] = [
-                'name' => "group$i"
+            $permission[] = [
+                'name' => "permission$i"
             ];
         }
 
-        DB::table('groups')->insert($group);
+        DB::table('permissions')->insert($permission);
     }
 }
