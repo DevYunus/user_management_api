@@ -9,9 +9,12 @@ class LoginUser extends ApiRequest
      *
      * @return array
      */
-    protected function validationData()
+    public function requestData()
     {
-        return $this->get('user') ?: [];
+        return [
+            'email' => $this->input('email'),
+            'password' =>$this->input('password')
+        ];
     }
 
     /**
@@ -23,7 +26,7 @@ class LoginUser extends ApiRequest
     {
         return [
             'email' => 'required|email|max:255',
-            'password' => 'required',
+            'password' => 'required'
         ];
     }
 }

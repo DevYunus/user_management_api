@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\LoginUser;
 
 class AuthController extends Controller
 {
@@ -21,11 +22,11 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(LoginUser $user)
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (! $token = auth()->attempt($user->requestData())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
