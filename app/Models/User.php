@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use JWTAuth;
 use App\Core\Follow\Followable;
@@ -58,7 +58,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getRouteKeyName()
     {
-        return 'username';
+        return 'id';
     }
 
     /**

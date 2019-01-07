@@ -9,7 +9,7 @@ class LoginUser extends ApiRequest
      *
      * @return array
      */
-    public function requestData()
+    public function requestAttributes()
     {
         return [
             'email' => $this->input('email'),

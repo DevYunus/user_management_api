@@ -29,4 +29,15 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 
+
+});
+
+Route::group([
+    'middleware' => 'auth:api',
+    'namespace' => 'Api'
+], function ($router) {
+
+    $router->apiResource('users', 'UserController');
+    
+
 });

@@ -2,47 +2,50 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\Api\UpdateUser;
-use App\Core\Transformers\UserTransformer;
+use App\Http\Requests\Api\UserRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 
 class UserController extends ApiController
 {
-    /**
-     * UserController constructor.
-     *
-     * @param UserTransformer $transformer
-     */
-    public function __construct(UserTransformer $transformer)
+    public function __construct()
     {
-        $this->transformer = $transformer;
 
-        $this->middleware('auth.api');
     }
 
     /**
-     * Get the authenticated user.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return $this->respondWithTransformer(auth()->user());
+        return UserResource::collection(User::all());
     }
 
-    /**
-     * Update the authenticated user and return the user if successful.
-     *
-     * @param UpdateUser $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(UpdateUser $request)
+    public function update(UserRequest $request, User $user)
     {
-        $user = auth()->user();
+        $user->update($request->requestAttributes());
+        return $this->respondSuccess();
+    }
 
-        if ($request->has('user')) {
-            $user->update($request->get('user'));
+    public function store(UserRequest $request)
+    {
+        $user = User::create($request->requestAttributes());
+        return new UserResource($user);
+    }
+
+    public function show(User $user)
+    {
+        return new UserResource($user);
+    }
+
+    public function destroy(User $user)
+    {
+        if($user->delete())
+        {
+            return $this->respondSuccess();
         }
 
-        return $this->respondWithTransformer($user);
+        return $this->respondError('Unable to delete user',500);
+
     }
 }

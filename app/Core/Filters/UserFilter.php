@@ -15,7 +15,6 @@ class ArticleFilter extends Filter
      */
     protected function email($email)
     {
-
         return $this->builder->whereEmail($email);
     }
 
