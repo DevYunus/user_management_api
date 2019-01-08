@@ -24,12 +24,18 @@ class UserController extends ApiController
     public function update(UserRequest $request, User $user)
     {
         $user->update($request->requestAttributes());
+
+        $user->syncRoles();
+
         return $this->respondSuccess();
     }
 
     public function store(UserRequest $request)
     {
         $user = User::create($request->requestAttributes());
+
+        $user->syncRoles();
+
         return new UserResource($user);
     }
 

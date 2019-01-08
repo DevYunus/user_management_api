@@ -41,8 +41,6 @@ Route::group([
 
     $router->apiResource('roles', 'RoleController');
 
-    $router->apiResource('groups', 'GroupController');
-
     $router->apiResource('permissions', 'PermissionController');
 
     $router->put('profile','ProfileController@update');

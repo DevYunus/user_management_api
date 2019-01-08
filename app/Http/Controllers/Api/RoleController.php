@@ -24,12 +24,18 @@ class RoleController extends ApiController
     public function update(RoleRequest $request, Role $role)
     {
         $role->update($request->requestAttributes());
+
+        $role->syncPermissions();
+
         return $this->respondSuccess();
     }
 
     public function store(RoleRequest $request)
     {
         $role = Role::create($request->requestAttributes());
+
+        $role->syncPermissions();
+
         return new RoleResource($role);
     }
 
