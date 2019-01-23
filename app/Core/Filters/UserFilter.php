@@ -2,8 +2,6 @@
 
 namespace App\Core\Filters;
 
-use App\User;
-
 class ArticleFilter extends Filter
 {
     /**

@@ -18,11 +18,15 @@ class UserController extends ApiController
      */
     public function index()
     {
-        return UserResource::collection(User::all());
+        $this->authorize('list_user');
+
+        return UserResource::collection(User::paginate(20));
     }
 
     public function update(UserRequest $request, User $user)
     {
+        $this->authorize('update_user');
+
         $user->update($request->requestAttributes());
 
         $user->syncRoles();
@@ -32,6 +36,8 @@ class UserController extends ApiController
 
     public function store(UserRequest $request)
     {
+        $this->authorize('add_user');
+
         $user = User::create($request->requestAttributes());
 
         $user->syncRoles();
@@ -41,17 +47,24 @@ class UserController extends ApiController
 
     public function show(User $user)
     {
+        $this->authorize('view_user');
+
         return new UserResource($user);
     }
 
     public function destroy(User $user)
     {
-        if($user->delete())
-        {
+        $this->authorize('delete_user');
+
+        if ($user->isAdmin()) {
+            return $this->respondError('Admin user could not be deleted', 422);
+        }
+
+        if ($user->delete()) {
             return $this->respondSuccess();
         }
 
-        return $this->respondError('Unable to delete user',500);
+        return $this->respondError('Unable to delete user', 500);
 
     }
 }

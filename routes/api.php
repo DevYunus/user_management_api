@@ -11,17 +11,16 @@ use Illuminate\Http\Request;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth',
-    'namespace' => 'Api'
+    'namespace' => 'Api',
 ], function ($router) {
 
     $router->post('login', 'AuthController@login');
@@ -32,21 +31,23 @@ Route::group([
 
 });
 
-Route::group([
-    'middleware' => 'api',
-    'namespace' => 'Api'
-], function ($router) {
+Route::group(
+    [
+        'middleware' => 'api','auth',
+        'namespace' => 'Api',
+    ], function ($router) {
 
-    $router->apiResource('users', 'UserController');
+        $router->apiResource('users', 'UserController');
 
-    $router->apiResource('roles', 'RoleController');
+        $router->apiResource('roles', 'RoleController');
 
-    $router->apiResource('permissions', 'PermissionController');
+        $router->apiResource('permissions', 'PermissionController');
 
-    $router->put('profile','ProfileController@update');
+        $router->put('profile', 'ProfileController@update');
 
-    $router->get('activity','ActivityController@index');
+        $router->get('activity', 'ActivityController@index');
 
-    $router->get('activity/{activity}','ActivityController@show');
+        $router->get('activity/{activity}', 'ActivityController@show');
 
-});
+    }
+);

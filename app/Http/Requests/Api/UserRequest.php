@@ -12,13 +12,12 @@ class UserRequest extends ApiRequest
     public function requestAttributes()
     {
         $attributes = [
-            'name'=>$this->input('name'),
-            'email'=>$this->input('email')
+            'name' => $this->input('name'),
+            'email' => $this->input('email'),
         ];
 
-        if($this->has('password'))
-        {
-            $attributes += ['password'=>$this->input('password')];
+        if ($this->has('password')) {
+            $attributes += ['password' => $this->input('password')];
         }
 
         return $attributes;
@@ -32,16 +31,15 @@ class UserRequest extends ApiRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required|max:255',
-            'password' => 'required|min:6'
+            'name' => 'required|max:255'
         ];
 
-        if($this->isMethod('PUT')){
+        if ($this->isMethod('PUT')) {
             $rules += ['email' => 'required|email|max:255|unique:users,email,' . $this->route('user')->id];
         }
 
-        if($this->isMethod('POST')){
-            $rules += ['email' => 'required|email|max:255|unique:users,email'];
+        if ($this->isMethod('POST')) {
+            $rules += ['email' => 'required|email|max:255|unique:users,email','password'=>'required|min:6'];
         }
 
         return $rules;

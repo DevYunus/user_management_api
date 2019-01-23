@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Exception;
-use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 
 class ApiController extends Controller
@@ -56,8 +54,8 @@ class ApiController extends Controller
         return $this->respond([
             'errors' => [
                 'message' => $message,
-                'status_code' => $statusCode
-            ]
+                'status_code' => $statusCode,
+            ],
         ], $statusCode);
     }
 

@@ -18,7 +18,7 @@ class RoleController extends ApiController
      */
     public function index()
     {
-        return RoleResource::collection(Role::all());
+        return RoleResource::collection(Role::paginate(20));
     }
 
     public function update(RoleRequest $request, Role $role)
@@ -51,7 +51,7 @@ class RoleController extends ApiController
             return $this->respondSuccess();
         }
 
-        return $this->respondError('Unable to delete Role',500);
+        return $this->respondError('Unable to delete Role', 500);
 
     }
 }
