@@ -1,12 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use JWTAuth;
-use App\Core\Follow\Followable;
-use App\Core\Favorite\HasFavorite;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use JWTAuth;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -58,7 +56,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getRouteKeyName()
     {
-        return 'username';
+        return 'id';
     }
 
     /**
@@ -80,4 +78,40 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * @param $roles
+     *
+     * @return bool
+     * @internal param $role
+     *
+     */
+    public function hasRole($roles)
+    {
+
+        if (is_string($roles)) {
+            return $this->roles->contains('name', $roles);
+        }
+
+        return !!$roles->intersect($this->roles)->count();
+
+    }
+
+    public function syncRoles()
+    {
+        if (request()->has('roles')) {
+            $this->roles()->sync(request()->get('roles'));
+        }
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
 }

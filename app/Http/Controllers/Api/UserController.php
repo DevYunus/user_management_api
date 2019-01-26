@@ -2,47 +2,69 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\Api\UpdateUser;
-use App\Core\Transformers\UserTransformer;
+use App\Http\Requests\Api\UserRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 
 class UserController extends ApiController
 {
-    /**
-     * UserController constructor.
-     *
-     * @param UserTransformer $transformer
-     */
-    public function __construct(UserTransformer $transformer)
+    public function __construct()
     {
-        $this->transformer = $transformer;
 
-        $this->middleware('auth.api');
     }
 
     /**
-     * Get the authenticated user.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return $this->respondWithTransformer(auth()->user());
+        $this->authorize('list_user');
+
+        return UserResource::collection(User::paginate(20));
     }
 
-    /**
-     * Update the authenticated user and return the user if successful.
-     *
-     * @param UpdateUser $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(UpdateUser $request)
+    public function update(UserRequest $request, User $user)
     {
-        $user = auth()->user();
+        $this->authorize('update_user');
 
-        if ($request->has('user')) {
-            $user->update($request->get('user'));
+        $user->update($request->requestAttributes());
+
+        $user->syncRoles();
+
+        return $this->respondSuccess();
+    }
+
+    public function store(UserRequest $request)
+    {
+        $this->authorize('add_user');
+
+        $user = User::create($request->requestAttributes());
+
+        $user->syncRoles();
+
+        return new UserResource($user);
+    }
+
+    public function show(User $user)
+    {
+        $this->authorize('view_user');
+
+        return new UserResource($user);
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('delete_user');
+
+        if ($user->isAdmin()) {
+            return $this->respondError('Admin user could not be deleted', 422);
         }
 
-        return $this->respondWithTransformer($user);
+        if ($user->delete()) {
+            return $this->respondSuccess();
+        }
+
+        return $this->respondError('Unable to delete user', 500);
+
     }
 }

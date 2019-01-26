@@ -2,8 +2,6 @@
 
 namespace App\Core\Filters;
 
-use App\User;
-
 class ArticleFilter extends Filter
 {
     /**
@@ -15,7 +13,6 @@ class ArticleFilter extends Filter
      */
     protected function email($email)
     {
-
         return $this->builder->whereEmail($email);
     }
 

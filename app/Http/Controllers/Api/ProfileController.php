@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Core\Transformers\ProfileTransformer;
 
 class ProfileController extends ApiController
@@ -31,33 +32,10 @@ class ProfileController extends ApiController
         return $this->respondWithTransformer($user);
     }
 
-    /**
-     * Follow the user given by their username and return the user if successful.
-     *
-     * @param User $user
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function follow(User $user)
+    public function update(User $user, Request $request)
     {
-        $authenticatedUser = auth()->user();
 
-        $authenticatedUser->follow($user);
-
-        return $this->respondWithTransformer($user);
     }
 
-    /**
-     * Unfollow the user given by their username and return the user if successful.
-     *
-     * @param User $user
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function unFollow(User $user)
-    {
-        $authenticatedUser = auth()->user();
 
-        $authenticatedUser->unFollow($user);
-
-        return $this->respondWithTransformer($user);
-    }
 }
