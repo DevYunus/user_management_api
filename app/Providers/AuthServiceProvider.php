@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Permission;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -33,8 +35,11 @@ class AuthServiceProvider extends ServiceProvider
         }
     }
 
-    private function getPermissions()
+    private function getPermissions():Collection
     {
-        return Permission::with('roles')->get();
+        if(Schema::hasTable('permissions')){
+            return Permission::with('roles')->get();
+        }
+        return new Collection();
     }
 }

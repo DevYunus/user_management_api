@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,12 +14,36 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=0; $i < 5000; $i++) {
-            $permission[] = [
-                'name' => "permission$i"
-            ];
-        }
+        $permissions = [
+            [
+                'name' => "add_user",
+                'group' => "Users",
+                'description' => "Has Ability to Add Users"
+            ],
+            [
+                'name' => "list_user",
+                'group' => "Users",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
+            ],
+            [
+                'name' => "view_user",
+                'group' => "Users",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
+            ],
+            [
+                'name' => "delete_user",
+                'group' => "Users",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
+            ],
+            [
+                'name' => "edit_user",
+                'group' => "Users",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
+            ],
+        ];
+        DB::table('permissions')->insert($permissions);
 
-        DB::table('permissions')->insert($permission);
+        $role = Role::whereName('admin')->first();
+        $role->permissions()->sync(Permission::all());
     }
 }
