@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('phone');
-            $table->dateTime('starred_at')->default(Carbon::now());
+            $table->dateTime('starred_at')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
