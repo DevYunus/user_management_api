@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Carbon\Carbon;
 
 class UserController extends ApiController
 {
@@ -25,7 +26,7 @@ class UserController extends ApiController
 
     public function update(UserRequest $request, User $user)
     {
-        $this->authorize('update_user');
+        // $this->authorize('update_user');
 
         $user->update($request->requestAttributes());
 
@@ -66,5 +67,12 @@ class UserController extends ApiController
 
         return $this->respondError('Unable to delete user', 500);
 
+    }
+
+    public function favorite(User $user)
+    {
+        $user->starred_at = $user->starred_at?NULL:Carbon::now();
+        $user->save();
+        return new UserResource($user);
     }
 }
