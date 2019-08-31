@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Api;
 
+use Carbon\Carbon;
+
 class UserRequest extends ApiRequest
 {
     /**
@@ -12,7 +14,9 @@ class UserRequest extends ApiRequest
     public function requestAttributes()
     {
         $attributes = [
-            'name' => $this->input('name'),
+            'first_name' => $this->input('firstName'),
+            'last_name' => $this->input('lastName'),
+            'phone' => $this->input('phone'),
             'email' => $this->input('email'),
         ];
 
@@ -31,7 +35,9 @@ class UserRequest extends ApiRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required|max:255'
+            'firstName' => 'required|max:255',
+            'lastName' => 'required|max:255',
+            'phone' => 'required|max:255',
         ];
 
         if ($this->isMethod('PUT')) {
