@@ -16,4 +16,12 @@ class ArticleFilter extends Filter
         return $this->builder->whereEmail($email);
     }
 
+    protected function q($q)
+    {
+        return $this->builder
+        ->where('email','like',"%$q%")
+        ->orWhere('first_name','like',"%$q%")
+        ->orWhere('last_name','like',"%$q%");
+    }
+
 }

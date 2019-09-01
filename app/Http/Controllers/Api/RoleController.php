@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Role;
 use App\Http\Resources\RoleResource;
 use App\Http\Requests\Api\RoleRequest;
+use App\Models\Permission;
 
 class RoleController extends ApiController
 {
@@ -18,7 +19,7 @@ class RoleController extends ApiController
      */
     public function index()
     {
-        return RoleResource::collection(Role::paginate(20));
+        return RoleResource::collection(Role::with('permissions')->paginate(200));
     }
 
     public function update(RoleRequest $request, Role $role)
@@ -53,5 +54,15 @@ class RoleController extends ApiController
 
         return $this->respondError('Unable to delete Role', 500);
 
+    }
+
+    public function togglePermission(Role $role, Permission $permission)
+    {
+        if($role->permissions()->toggle($permission)){
+            return $this->respondCreated(['roleId'=>$role->id]);
+        }
+
+
+        return $this->respondError('Unable to toggle permission', 500);
     }
 }

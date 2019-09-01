@@ -49,5 +49,7 @@ Route::group(
 
         $router->get('activity/{activity}', 'ActivityController@show');
 
+        $router->post('roles/{role}/permissions/{permission}','RoleController@togglePermission');
+
     }
 );

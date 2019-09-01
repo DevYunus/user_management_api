@@ -17,28 +17,45 @@ class PermissionTableSeeder extends Seeder
         $permissions = [
             [
                 'name' => "add_user",
-                'group' => "Users",
+                'slug' => "Add User",
+                'group' => "users",
                 'description' => "Has Ability to Add Users"
             ],
             [
                 'name' => "list_user",
-                'group' => "Users",
-                'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
+                'slug' => "List User",
+                'group' => "users",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic"
             ],
             [
                 'name' => "view_user",
-                'group' => "Users",
-                'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
+                'slug' => "View User",
+                'group' => "users",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic"
             ],
             [
                 'name' => "delete_user",
-                'group' => "Users",
-                'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
+                'slug' => "Delete User",
+                'group' => "users",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic"
             ],
             [
                 'name' => "edit_user",
-                'group' => "Users",
-                'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
+                'slug' => "Edit User",
+                'group' => "users",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic"
+            ],
+            [
+                'name' => "add_role",
+                'slug' => "Add role",
+                'group' => "roles",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic"
+            ],
+            [
+                'name' => "Dummy Permission",
+                'slug' => "custom_permission",
+                'group' => "Custom",
+                'description' => "Lorem ipsum is placeholder text commonly used in the graphic"
             ],
         ];
         DB::table('permissions')->insert($permissions);
