@@ -15,14 +15,17 @@ class RoleTableSeeder extends Seeder
         $roles = [
             [
                 'name' => "admin",
+                'slug' => "admin",
                 'description' => "Admin can access whole application and has access to every module"
             ],
             [
-                'name' => "normal-user",
+                'name' => "normal_user",
+                'slug' => "normal user",
                 'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
             ],
             [
                 'name' => "custom",
+                'slug' => "custom",
                 'description' => "Lorem ipsum is placeholder text commonly used in the graphic, print"
             ],
         ];

@@ -15,7 +15,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','me']]);
     }
 
     /**
@@ -40,8 +40,11 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return new UserResource(auth()->user());
-        // return response()->json(auth()->user());
+        if(auth()->check()){
+            return new UserResource(auth()->user());
+        }
+
+        return response()->json([]);
     }
 
     /**
